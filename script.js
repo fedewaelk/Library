@@ -10,9 +10,6 @@ function Book(title, author, pages, status) {
     this.author = author;
     this.pages = pages;
     this.status = status;
-    this.info = function() {
-        return `"${this.title} by ${this.author}, ${this.pages} pages, ${this.status}"`;
-    };
 }
 
 function addBookToLibrary(title, author, pages, status) {
@@ -26,16 +23,51 @@ function displayBooks() {
 
     myLibrary.forEach(book => {
         const row = document.createElement('tr');
-        
         row.innerHTML = `
             <td>${book.title}</td>
             <td>${book.author}</td>
             <td>${book.pages}</td>
             <td>${book.status}</td>
         `;
-
         tableBody.appendChild(row);
     });
 }
 
 displayBooks();
+
+const showButton = document.getElementById("showDialog");
+const addDialog = document.getElementById("addDialog");
+const confirmBtn = addDialog.querySelector("#confirmBtn");
+
+showButton.addEventListener("click", () => {
+    addDialog.showModal();
+});
+
+confirmBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const titleInput = addDialog.querySelector('input[placeholder="Title"]');
+    const authorInput = addDialog.querySelector('input[placeholder="Author"]');
+    const pagesInput = addDialog.querySelector('input[placeholder="Number of pages"]');
+    const statusSelect = addDialog.querySelector("select");
+
+    const title = titleInput.value;
+    const author = authorInput.value;
+    const pages = pagesInput.value;
+    const status = statusSelect.value;
+
+    if (title && author && pages && status !== "default") {
+        addBookToLibrary(title, author, parseInt(pages, 10), status);
+
+        displayBooks();
+
+        titleInput.value = "";
+        authorInput.value = "";
+        pagesInput.value = "";
+        statusSelect.value = "default";
+
+        addDialog.close();
+    } else {
+        alert("Please fill in all fields correctly.");
+    }
+});

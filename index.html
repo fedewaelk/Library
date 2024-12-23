@@ -21,6 +21,30 @@
             <!-- Books will be added here -->
         </tbody>
     </table>
+    
+    <dialog id="addDialog">
+        <form>
+        <p>
+            <input type="text" placeholder="Title">
+            <input type="text" placeholder="Author">
+            <input type="number" placeholder="Number of pages">
+            <select>
+                <option value="default">Did you read it?</option>
+                <option>Read</option>
+                <option>Not read yet</option>
+            </select>
+        </p>
+        <div>
+            <button value="cancel" formmethod="dialog">Cancel</button>
+            <button id="confirmBtn" value="default">Confirm</button>
+        </div>
+        </form>
+    </dialog>
+    <p>
+        <button id="showDialog">Add a new book</button>
+    </p>
+    <output></output>
+  
     <script src="script.js"></script>
 </body>
 </html>
