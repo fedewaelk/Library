@@ -21,16 +21,32 @@ function displayBooks() {
     const tableBody = document.querySelector('#library-table tbody');
     tableBody.innerHTML = '';
 
-    myLibrary.forEach(book => {
+    myLibrary.forEach((book, index) => {
         const row = document.createElement('tr');
+
         row.innerHTML = `
             <td>${book.title}</td>
             <td>${book.author}</td>
             <td>${book.pages}</td>
             <td>${book.status}</td>
+            <td>
+                <button class="remove-btn" data-index="${index}">Remove</button>
+            </td>
         `;
+
         tableBody.appendChild(row);
     });
+
+    const removeButtons = document.querySelectorAll('.remove-btn');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', removeBook);
+    });
+}
+
+function removeBook(event) {
+    const bookIndex = event.target.getAttribute('data-index');
+    myLibrary.splice(bookIndex, 1);
+    displayBooks();
 }
 
 displayBooks();
