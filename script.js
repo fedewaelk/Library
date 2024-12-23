@@ -17,6 +17,10 @@ function addBookToLibrary(title, author, pages, status) {
     myLibrary.push(newBook);
 }
 
+Book.prototype.toggleStatus = function () {
+    this.status = this.status === "read" ? "not read yet" : "read";
+};
+
 function displayBooks() {
     const tableBody = document.querySelector('#library-table tbody');
     tableBody.innerHTML = '';
@@ -28,7 +32,7 @@ function displayBooks() {
             <td>${book.title}</td>
             <td>${book.author}</td>
             <td>${book.pages}</td>
-            <td>${book.status}</td>
+            <td><button class="toggle-status-btn" data-index="${index}">${book.status}</button></td>
             <td>
                 <button class="remove-btn" data-index="${index}">Remove</button>
             </td>
@@ -41,11 +45,22 @@ function displayBooks() {
     removeButtons.forEach(button => {
         button.addEventListener('click', removeBook);
     });
+
+    const toggleButtons = document.querySelectorAll('.toggle-status-btn');
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', toggleReadStatus);
+    });
 }
 
 function removeBook(event) {
     const bookIndex = event.target.getAttribute('data-index');
     myLibrary.splice(bookIndex, 1);
+    displayBooks();
+}
+
+function toggleReadStatus(event) {
+    const bookIndex = event.target.getAttribute('data-index');
+    myLibrary[bookIndex].toggleStatus();
     displayBooks();
 }
 
